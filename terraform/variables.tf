@@ -24,11 +24,6 @@ variable ami {
   default     = "ami-060cde69"
 }
 
-variable instance_type {
-  description = "instance type"
-  default     = "t2.micro"
-}
-
 variable db_server_params {
   default = {
     "name"  = "db"
