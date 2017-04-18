@@ -1,3 +1,9 @@
 output "web_address" {
-  value = "${aws_instance.web.public_ip}"
+  value = "${module.web.public_ip}"
 }
+
+/*
+output "db_address" {
+  value = "${module.db.public_ip}"
+}*/
+

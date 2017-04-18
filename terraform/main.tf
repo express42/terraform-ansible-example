@@ -2,35 +2,52 @@ provider "aws" {
   region = "${var.region}"
 }
 
-resource "aws_key_pair" "auth" {
-  key_name   = "${var.key_name}"
-  public_key = "${file("${var.ssh_pub_key_path}")}"
+module "key_pair" {
+  source           = "./modules/key_pair"
+  key_name         = "${var.key_name}"
+  ssh_pub_key_path = "${var.ssh_pub_key_path}"
 }
 
-resource "aws_instance" "web" {
-  ami = "${var.ami}"
-  instance_type = "${var.instance_type}"
-  key_name = "${aws_key_pair.auth.key_name}"
-  vpc_security_group_ids = ["sg-490ea722"]
-
-  tags {
-    Name = "${var.tag_name}"
-  }
-  provisioner "remote-exec" {
-    inline = "echo sshd is running"
-
-    connection {
-      agent = false
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = "${file(var.private_key_path)}"
-    }
-  }
+module "base_linux" {
+  source = "./modules/base"
 }
-# create security group and attach to instance
 
-resource null_resource "ansible" {
+module "web" {
+  source           = "./modules/web"
+  ssh_pub_key_path = "${var.ssh_pub_key_path}"
+  ssh_user         = "${var.ssh_user}"
+  private_key_path = "${var.private_key_path}"
+  env              = "${var.env}"
+  key_name         = "${module.key_pair.key_name}"
+  sg_ids           = "${module.base_linux.sg_id}"
+  name             = "${var.web_server_params["name"]}"
+  count            = "${var.web_server_params["count"]}"
+}
+
+module "db" {
+  source           = "./modules/db"
+  ssh_pub_key_path = "${var.ssh_pub_key_path}"
+  ssh_user         = "${var.ssh_user}"
+  private_key_path = "${var.private_key_path}"
+  env              = "${var.env}"
+  key_name         = "${module.key_pair.key_name}"
+  sg_ids           = "${module.base_linux.sg_id}"
+  name             = "${var.db_server_params["name"]}"
+  count            = "${var.db_server_params["count"]}"
+}
+
+resource null_resource "ansible_web" {
+  depends_on = ["module.web"]
+
   provisioner "local-exec" {
-    command = "cd .. && ansible-playbook playbooks/apache.yml"
+    command = "cd ../ansible && ansible-playbook playbooks/apache.yml -e env=${var.env} -e group_name=${var.web_server_params["name"]}"
+  }
+}
+
+resource null_resource "ansible_db" {
+  depends_on = ["module.db"]
+
+  provisioner "local-exec" {
+    command = "cd ../ansible && ansible-playbook playbooks/db.yml -e env=${var.env} -e group_name=${var.db_server_params["name"]}"
   }
 }

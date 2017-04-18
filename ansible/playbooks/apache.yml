@@ -1,0 +1,24 @@
+---
+
+- hosts: tag_Group_{{ env | default(test) }}_web
+  gather_facts: false
+  become: yes
+
+  pre_tasks:
+  - name: Install python for Ansible
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    changed_when: False
+
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - apache2
+
+  - name: Start apache2 service
+    service:
+      enabled: yes
+      name: apache2
+      state: started

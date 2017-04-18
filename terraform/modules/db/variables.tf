@@ -10,13 +10,8 @@ variable private_key_path {
   description = "path to the private key used to connect to instance"
 }
 
-variable region {
-  description = "region"
-  default     = "eu-central-1"
-}
-
 variable env {
-  default = "dev"
+  description = "current working environment"
 }
 
 variable ami {
@@ -29,20 +24,20 @@ variable instance_type {
   default     = "t2.micro"
 }
 
-variable db_server_params {
-  default = {
-    "name"  = "db"
-    "count" = "1"
-  }
-}
-
-variable web_server_params {
-  default = {
-    "name"  = "web"
-    "count" = "1"
-  }
+variable sg_ids {
+  description = "list of security groups"
 }
 
 variable key_name {
   description = "name of ssh key to create"
+}
+
+variable count {
+  description = "aws instances count"
+  default     = "1"
+}
+
+variable name {
+  description = "aws instances name"
+  default     = "db"
 }

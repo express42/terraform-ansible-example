@@ -1,0 +1,24 @@
+---
+
+- hosts: tag_Group_{{ env | default(test) }}_db
+  gather_facts: false
+  become: yes
+
+  pre_tasks:
+  - name: Install python for Ansible
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    changed_when: False
+
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - mysql-server
+
+  - name: Start mysql service
+    service:
+      enabled: yes
+      name: mysql
+      state: started
