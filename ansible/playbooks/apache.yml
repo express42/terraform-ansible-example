@@ -1,6 +1,6 @@
 ---
 
-- hosts: tag_Group_{{ env | default(test) }}_web
+- hosts: tag_Group_{{ env }}_{{ group_name }}
   gather_facts: false
   become: yes
 
