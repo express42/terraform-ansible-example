@@ -104,7 +104,7 @@ resource null_resource "ansible_web" {
 ```
 
 
-#### variable.tf - define all required variables, its description(optional) default values(optional)
+#### variables.tf - define all required variables, its description(optional) default values(optional)
 
 There are three types of variables in terraform:
 
@@ -138,10 +138,10 @@ Variables can be defined in
   }
 ```
 You can just create it but not define in .tf file, but then you'll need to define it anywhere
-
   ```
     variable "name" {}
   ```
+
 * terraform.tfvars (default) or any other .tfvars file with flag -var-file
 ```
 $ terraform plan \
