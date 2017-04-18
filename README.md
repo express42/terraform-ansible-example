@@ -8,8 +8,8 @@ Quick start on how to provision with ansible inside terraform
 ## Getting stated
 Prepend environment for using ansible dynamic inventory with Amazon ec2:
 ```
-  pip install boto
-  chmod +x ansible/ec2.py
+$ pip install boto
+$ chmod +x ansible/ec2.py
 ```
 Of course, you'll need to have AWS credentials. By default you can find it in  ~/.aws/credentials
 ```
@@ -36,6 +36,49 @@ private_key_path = "~/.ssh/express42"
 key_name = "astarostenko"
 ```
 
+Go to terraform folder and download all modules to .terraform folder (for local modules it just creates symlinks)
+```
+$ cd terraform
+$ terraform get
+```
+
+If your want to see plan of your own infrastructure
+
+```
+$ terraform plan
+Refreshing Terraform state in-memory prior to plan...
+The refreshed state will be used to calculate this plan, but will not be
+persisted to local or remote state storage.
+
+data.aws_ami.image: Refreshing state...
+The Terraform execution plan has been generated and is shown below.
+Resources are shown in alphabetical order for quick scanning. Green resources
+will be created (or destroyed and then created if an existing resource
+exists), yellow resources are being changed in-place, and red resources
+will be destroyed. Cyan entries are data sources to be read.
+
+Note: You didn't specify an "-out" parameter to save this plan, so when
+"apply" is called, Terraform can't guarantee this is what will execute.
+
++ null_resource.ansible_db
+
++ null_resource.ansible_web
+
++ module.db.aws_instance.db
+...
+...
+...
+Plan: 9 to add, 0 to change, 0 to destroy.
+
+```
+To create all resources and provision all services
+```
+$ terraform apply
+```
+To delete all created resources
+```
+$ terraform destroy
+```
 # Terraform structure
 
 #### main.tf - contain general infrastructure description
