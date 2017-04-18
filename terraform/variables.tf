@@ -8,7 +8,7 @@ variable instance_type {
   default = "t2.micro"
 }
 
-variable ssh_pub_key_path {
+variable pub_key_path {
   description = "path to ssh public key used to create this key on AWS"
 }
 

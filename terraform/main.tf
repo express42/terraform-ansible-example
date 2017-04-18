@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "auth" {
   key_name   = "${var.key_name}"
-  public_key = "${file("${var.ssh_pub_key_path}")}"
+  public_key = "${file(var.pub_key_path)}"
 }
 
 resource "aws_instance" "web" {
@@ -31,6 +31,6 @@ resource "aws_instance" "web" {
 
 resource null_resource "ansible" {
   provisioner "local-exec" {
-    command = "cd .. && ansible-playbook playbooks/apache.yml"
+    command = "cd ../ansible/ && ansible-playbook playbooks/apache.yml"
   }
 }
