@@ -5,6 +5,9 @@
   become: yes
 
   pre_tasks:
+  - name:
+    local_action: wait_for port=22 host={{ ansible_ssh_host }} search_regex=OpenSSH delay=5
+    become: no
   - name: Install python for Ansible
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
     changed_when: False

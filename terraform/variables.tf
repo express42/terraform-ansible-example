@@ -3,6 +3,7 @@ variable ssh_pub_key_path {
 }
 
 variable ssh_user {
+  default = "ubuntu"
   description = "user used to log in to instance"
 }
 
@@ -16,7 +17,7 @@ variable region {
 }
 
 variable env {
-  default = "dev"
+  description = "current working environment"
 }
 
 variable ami {
