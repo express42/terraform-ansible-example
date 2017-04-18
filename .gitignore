@@ -1,0 +1,4 @@
+*.retry
+*.tfstate
+*.tfstate.backup
+*.tfvars
