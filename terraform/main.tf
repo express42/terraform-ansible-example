@@ -8,7 +8,7 @@ resource "aws_key_pair" "auth" {
 }
 
 resource "aws_instance" "web" {
-  ami = "${var.ami}"
+  ami = "${data.aws_ami.image.image_id}"
   instance_type = "${var.instance_type}"
   key_name = "${aws_key_pair.auth.key_name}"
   vpc_security_group_ids = ["sg-490ea722"]

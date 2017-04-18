@@ -3,11 +3,6 @@ variable region {
   default = "eu-central-1"
 }
 
-variable ami {
-  description = "instance AMI"
-  default = "ami-060cde69"
-}
-
 variable instance_type {
   description = "instance type"
   default = "t2.micro"
