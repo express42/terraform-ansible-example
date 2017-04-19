@@ -31,7 +31,7 @@ regions_exclude = us-gov-west-1, cn-north-1
 ## Usage
 if you want just up example infrastructure you need set your variables in .tfvars files
 ```
-pub_key_path = "~/.ssh/express42.pub"
+ssh_pub_key_path = "~/.ssh/express42.pub"
 private_key_path = "~/.ssh/express42"
 key_name = "astarostenko"
 env = "astarostenko"
