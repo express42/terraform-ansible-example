@@ -3,19 +3,19 @@ provider "aws" {
 }
 
 module "key_pair" {
-  source           = "./modules/key_pair"
+  source           = "modules/key_pair"
   key_name         = "${var.key_name}"
   ssh_pub_key_path = "${var.ssh_pub_key_path}"
 }
 
 module "base_linux" {
-  source = "./modules/base"
+  source = "modules/base"
   env    = "${var.env}"
 }
 
 module "web" {
   ami              = "${data.aws_ami.image.id}"
-  source           = "./modules/web"
+  source           = "modules/web"
   ssh_pub_key_path = "${var.ssh_pub_key_path}"
   ssh_user         = "${var.ssh_user}"
   private_key_path = "${var.private_key_path}"
@@ -28,7 +28,7 @@ module "web" {
 
 module "db" {
   ami              = "${data.aws_ami.image.id}"
-  source           = "./modules/db"
+  source           = "modules/db"
   ssh_pub_key_path = "${var.ssh_pub_key_path}"
   ssh_user         = "${var.ssh_user}"
   private_key_path = "${var.private_key_path}"
@@ -47,8 +47,8 @@ resource null_resource "ansible_web" {
   }
 
   provisioner "local-exec" {
-    command = <<EOT 
-    cd ../ansible && 
+    command = <<EOT
+    cd ../ansible &&
     ansible-playbook playbooks/web.yml -e env="${var.env}" -e group_name="${var.web_server_params["name"]}"
   EOT
   }
@@ -62,8 +62,8 @@ resource null_resource "ansible_db" {
   }
 
   provisioner "local-exec" {
-    command = <<EOT 
-    cd ../ansible && 
+    command = <<EOT
+    cd ../ansible &&
     ansible-playbook playbooks/db.yml -e env="${var.env}" -e group_name="${var.db_server_params["name"]}"
   EOT
   }
