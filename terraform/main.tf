@@ -10,9 +10,11 @@ module "key_pair" {
 
 module "base_linux" {
   source = "./modules/base"
+  env    = "${var.env}"
 }
 
 module "web" {
+  ami              = "${data.aws_ami.image.id}"
   source           = "./modules/web"
   ssh_pub_key_path = "${var.ssh_pub_key_path}"
   ssh_user         = "${var.ssh_user}"
@@ -25,6 +27,7 @@ module "web" {
 }
 
 module "db" {
+  ami              = "${data.aws_ami.image.id}"
   source           = "./modules/db"
   ssh_pub_key_path = "${var.ssh_pub_key_path}"
   ssh_user         = "${var.ssh_user}"
