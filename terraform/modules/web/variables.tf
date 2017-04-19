@@ -10,13 +10,8 @@ variable private_key_path {
   description = "path to the private key used to connect to instance"
 }
 
-variable region {
-  description = "region"
-  default     = "eu-central-1"
-}
-
 variable env {
-  default = "dev"
+  description = "current working environment"
 }
 
 variable ami {
@@ -24,18 +19,23 @@ variable ami {
   default     = "ami-060cde69"
 }
 
-variable db_server_params {
-  default = {
-    "name"  = "db"
-    "count" = "1"
-  }
+variable instance_type {
+  description = "instance type"
+  default     = "t2.micro"
 }
 
-variable web_server_params {
-  default = {
-    "name"  = "web"
-    "count" = "1"
-  }
+variable count {
+  description = "aws instances count"
+  default     = "1"
+}
+
+variable name {
+  description = "aws instances name"
+  default     = "web"
+}
+
+variable sg_ids {
+  description = "list of security groups"
 }
 
 variable key_name {

@@ -15,10 +15,10 @@
       name: "{{ item }}"
       state: present
     with_items:
-      - apache2
+      - mysql-server
 
-  - name: Start apache2 service
+  - name: Start mysql service
     service:
       enabled: yes
-      name: apache2
+      name: mysql
       state: started
