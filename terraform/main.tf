@@ -3,9 +3,9 @@ provider "aws" {
 }
 
 module "key_pair" {
-  source           = "modules/key_pair"
-  key_name         = "${var.key_name}"
-  ssh_pub_key_path = "${var.ssh_pub_key_path}"
+  source       = "modules/key_pair"
+  key_name     = "${var.key_name}"
+  pub_key_path = "${var.pub_key_path}"
 }
 
 module "base_linux" {
@@ -16,7 +16,7 @@ module "base_linux" {
 module "web" {
   ami              = "${data.aws_ami.image.id}"
   source           = "modules/web"
-  ssh_pub_key_path = "${var.ssh_pub_key_path}"
+  pub_key_path     = "${var.pub_key_path}"
   ssh_user         = "${var.ssh_user}"
   private_key_path = "${var.private_key_path}"
   env              = "${var.env}"
@@ -29,7 +29,7 @@ module "web" {
 module "db" {
   ami              = "${data.aws_ami.image.id}"
   source           = "modules/db"
-  ssh_pub_key_path = "${var.ssh_pub_key_path}"
+  pub_key_path     = "${var.pub_key_path}"
   ssh_user         = "${var.ssh_user}"
   private_key_path = "${var.private_key_path}"
   env              = "${var.env}"
