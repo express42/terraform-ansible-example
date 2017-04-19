@@ -16,12 +16,12 @@ resource "aws_instance" "db" {
 }
 
 resource "aws_security_group" "db" {
-  name        = "example_db_sg"
-  description = "Allow HTTP access"
+  name        = "${var.env}_example_db_sg"
+  description = "Allow DB access"
 
   ingress {
-    from_port   = 0
-    to_port     = 80
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

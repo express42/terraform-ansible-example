@@ -34,6 +34,7 @@ if you want just up example infrastructure you need set your variables in .tfvar
 pub_key_path = "~/.ssh/express42.pub"
 private_key_path = "~/.ssh/express42"
 key_name = "astarostenko"
+env = "astarostenko"
 ```
 
 Go to terraform folder and download all modules to .terraform folder (for local modules it just creates symlinks)
