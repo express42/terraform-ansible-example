@@ -40,7 +40,7 @@ resource null_resource "ansible_web" {
   depends_on = ["module.web"]
 
   provisioner "local-exec" {
-    command = "cd ../ansible && ansible-playbook playbooks/apache.yml -e env=${var.env} -e group_name=${var.web_server_params["name"]}"
+    command = "cd ../ansible && ansible-playbook playbooks/web.yml -e env=${var.env} -e group_name=${var.web_server_params["name"]}"
   }
 }
 
