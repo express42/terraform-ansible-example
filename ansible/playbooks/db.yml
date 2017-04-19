@@ -1,0 +1,27 @@
+---
+
+- hosts: tag_Group_{{ env }}_{{ group_name }}
+  gather_facts: false
+  become: yes
+
+  pre_tasks:
+  - name:
+    local_action: wait_for port=22 host={{ ansible_ssh_host }} search_regex=OpenSSH delay=5
+    become: no
+  - name: Install python for Ansible
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    changed_when: False
+
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - mysql-server
+
+  - name: Start mysql service
+    service:
+      enabled: yes
+      name: mysql
+      state: started
