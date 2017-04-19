@@ -1,28 +1,23 @@
 variable pub_key_path {
-  description = "path to ssh public key used to create this key on AWS"
+  description = "Path to ssh public key used to create this key on AWS"
 }
 
 variable ssh_user {
+  description = "User used to log in to instance"
   default     = "ubuntu"
-  description = "user used to log in to instance"
 }
 
 variable private_key_path {
-  description = "path to the private key used to connect to instance"
+  description = "Path to the private key used to connect to instance"
 }
 
 variable region {
-  description = "region"
+  description = "Region"
   default     = "eu-central-1"
 }
 
 variable env {
-  description = "current working environment"
-}
-
-variable ami {
-  description = "instance AMI"
-  default     = "ami-060cde69"
+  description = "Environment prefix"
 }
 
 variable db_server_params {

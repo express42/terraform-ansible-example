@@ -1,3 +1,3 @@
 variable env {
-  description = "current working environment"
+  description = "Environment prefix"
 }

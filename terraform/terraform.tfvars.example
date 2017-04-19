@@ -1,4 +1,12 @@
-ssh_pub_key_path = "~/.ssh/express42.pub"
+pub_key_path = "~/.ssh/express42.pub"
 private_key_path = "~/.ssh/express42"
 key_name = "astarostenko"
-env = "astarostenko"
+env = "dev"
+
+web_server_params {
+  count = "1"
+}
+
+db_server_params {
+  count = "1"
+}
