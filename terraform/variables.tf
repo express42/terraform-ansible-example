@@ -3,7 +3,7 @@ variable ssh_pub_key_path {
 }
 
 variable ssh_user {
-  default = "ubuntu"
+  default     = "ubuntu"
   description = "user used to log in to instance"
 }
 
