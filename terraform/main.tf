@@ -47,7 +47,10 @@ resource null_resource "ansible_web" {
   }
 
   provisioner "local-exec" {
-    command = "cd ../ansible && ansible-playbook playbooks/web.yml -e env=${var.env} -e group_name=${var.web_server_params["name"]}"
+    command = <<EOT 
+    cd ../ansible && 
+    ansible-playbook playbooks/web.yml -e env="${var.env}" -e group_name="${var.web_server_params["name"]}"
+  EOT
   }
 }
 
@@ -59,6 +62,9 @@ resource null_resource "ansible_db" {
   }
 
   provisioner "local-exec" {
-    command = "cd ../ansible && ansible-playbook playbooks/db.yml -e env=${var.env} -e group_name=${var.db_server_params["name"]}"
+    command = <<EOT 
+    cd ../ansible && 
+    ansible-playbook playbooks/db.yml -e env="${var.env}" -e group_name="${var.db_server_params["name"]}"
+  EOT
   }
 }
