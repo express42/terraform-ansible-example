@@ -43,7 +43,7 @@ resource null_resource "ansible_web" {
   depends_on = ["module.web", "null_resource.ansible_db"]
 
   triggers {
-    cluster_instance_ips = "${join(",", module.web.id_list)}"
+    cluster_instance_ids = "${join(",", module.web.id_list)}"
   }
 
   provisioner "local-exec" {
