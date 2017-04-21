@@ -1,0 +1,8 @@
+terraform {
+  backend "s3" {
+    bucket = "mk-aws-interns"
+    key = "artemkin/remote_state"
+    region = "eu-central-1"
+    #lock_table = "terraform-state-lock"
+  }
+}
