@@ -11,7 +11,7 @@ resource "aws_instance" "db" {
 
   tags {
     Name  = "${var.env}_${format("${var.name}%02d", count.index+1)}"
-    Group = "${var.env}_${var.name}"
+    Group = "${var.env}_${var.name}_cluster"
   }
 
   provisioner "remote-exec" {
