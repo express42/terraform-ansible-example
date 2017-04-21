@@ -3,3 +3,4 @@
 *.tfstate.backup*
 *.tfvars
 *.terraform
+terraform_backend.tf

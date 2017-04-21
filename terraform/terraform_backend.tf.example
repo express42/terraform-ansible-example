@@ -1,0 +1,8 @@
+# Remote state
+terraform {
+  backend "s3" {
+    region = "eu-central-1"
+    bucket = "bucket_name"
+    key = "key"
+  }
+}
