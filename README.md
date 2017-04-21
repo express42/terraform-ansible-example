@@ -8,8 +8,7 @@ Quick start on how to provision with ansible inside terraform
 ## Getting stated
 Prepend environment for using ansible dynamic inventory with Amazon ec2:
 ```
-$ pip install boto
-$ chmod +x ansible/ec2.py
+$ pip install git+https://github.com/sean-abbott/terraform.py.git
 ```
 Of course, you'll need to have AWS credentials. By default you can find it in  ~/.aws/credentials
 ```
@@ -20,21 +19,29 @@ aws_secret_access_key = <AWS_SECRET_ACCESS_KEY>
 ...
 ```
 
-In file ansible/ec2.ini define your regions:
-```
-...
-regions = eu-central-1
-regions_exclude = us-gov-west-1, cn-north-1
-...
-```
-
 ## Usage
-if you want just up example infrastructure you need set your variables in .tfvars files
+If you want just up example infrastructure you need set your variables in .tfvars file
 ```
 pub_key_path = "~/.ssh/express42.pub"
 private_key_path = "~/.ssh/express42"
 key_name = "astarostenko"
 env = "astarostenko"
+```
+
+If you want to use remote state file you need to set up backend config in terraform_backend.tf file:
+```
+terraform {
+  backend "s3" {
+    region = "eu-central-1"
+    bucket = "bucket_name"
+    key = "key"
+  }
+}
+```
+
+... and then initialize it:
+```
+$ terraform init
 ```
 
 Go to terraform folder and download all modules to .terraform folder (for local modules it just creates symlinks)
@@ -72,9 +79,14 @@ Note: You didn't specify an "-out" parameter to save this plan, so when
 Plan: 9 to add, 0 to change, 0 to destroy.
 
 ```
-To create all resources and provision all services
+To create all resources:
 ```
 $ terraform apply
+```
+To provision all created services use ansible:
+```
+$ ansible-playbook -i terraform_inventory.sh playbooks/db.yml -e env="dev" -e group_name="db"
+$ ansible-playbook -i terraform_inventory.sh playbooks/web.yml -e env="dev" -e group_name="web"
 ```
 To delete all created resources
 ```
@@ -83,7 +95,7 @@ $ terraform destroy
 # Terraform structure
 
 #### main.tf - contain general infrastructure description
-We describe used provider, can create resources, call some modules, and can also define provision  
+We describe used provider, can create resources, call some modules, and can also define provision
 action
 ```
 provider "aws" {
