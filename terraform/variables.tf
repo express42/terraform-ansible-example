@@ -18,6 +18,7 @@ variable region {
 
 variable env {
   description = "Environment prefix"
+  default = "dev"
 }
 
 variable db_server_params {
