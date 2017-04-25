@@ -25,6 +25,7 @@ module "web" {
   name             = "${var.web_server_params["name"]}"
   count            = "${var.web_server_params["count"]}"
   ebs_optimized    = "${var.ebs_optimized}"
+  monitoring       = "${var.monitoring}"
   azs              = ["${var.azs}"]
 }
 
@@ -40,5 +41,6 @@ module "db" {
   name             = "${var.db_server_params["name"]}"
   count            = "${var.db_server_params["count"]}"
   ebs_optimized    = "${var.ebs_optimized}"
+  monitoring        = "${var.monitoring}"
   azs              = ["${var.azs}"]
 }

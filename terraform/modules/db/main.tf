@@ -3,6 +3,7 @@ resource "aws_instance" "db" {
   count             = "${var.count}"
   instance_type     = "${var.instance_type}"
   ebs_optimized     = "${var.ebs_optimized}"
+  monitoring        = "${var.monitoring}"
   key_name          = "${var.key_name}"
   availability_zone = "${element(var.azs, count.index)}"
 

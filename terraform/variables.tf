@@ -21,6 +21,11 @@ variable ebs_optimized {
   default     = "false"
 }
 
+variable monitoring {
+  description = "Enable detailed monitoring for EC2 instances"
+  default     = "false"
+}
+
 variable azs {
   description = "Run the EC2 Instances in these Availability Zones"
   type = "list"

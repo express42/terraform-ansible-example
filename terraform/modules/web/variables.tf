@@ -32,6 +32,10 @@ variable ebs_optimized {
   description = "Create EBS–Optimized Instances"
 }
 
+variable monitoring {
+  description = "Enable detailed monitoring for EC2 instances"
+}
+
 variable sg_ids {
   description = "List of security groups ids"
 }
