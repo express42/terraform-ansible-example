@@ -28,6 +28,11 @@ variable instance_type {
   default     = "t2.micro"
 }
 
+variable ebs_optimized {
+  description = "Create EBS–Optimized Instances"
+  default     = "false"
+}
+
 variable sg_ids {
   description = "List of security groups ids"
 }

@@ -2,6 +2,7 @@ resource "aws_instance" "db" {
   ami               = "${var.ami}"
   count             = "${var.count}"
   instance_type     = "${var.instance_type}"
+  ebs_optimized     = "${var.ebs_optimized}"
   key_name          = "${var.key_name}"
   availability_zone = "${element(var.azs, count.index)}"
 
