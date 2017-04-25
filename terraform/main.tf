@@ -24,6 +24,7 @@ module "web" {
   sg_ids           = "${module.base_linux.sg_id}"
   name             = "${var.web_server_params["name"]}"
   count            = "${var.web_server_params["count"]}"
+  ebs_optimized    = "${var.ebs_optimized}"
   azs              = ["${var.azs}"]
 }
 
@@ -38,5 +39,6 @@ module "db" {
   sg_ids           = "${module.base_linux.sg_id}"
   name             = "${var.db_server_params["name"]}"
   count            = "${var.db_server_params["count"]}"
+  ebs_optimized    = "${var.ebs_optimized}"
   azs              = ["${var.azs}"]
 }

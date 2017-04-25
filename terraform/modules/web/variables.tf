@@ -30,7 +30,6 @@ variable instance_type {
 
 variable ebs_optimized {
   description = "Create EBS–Optimized Instances"
-  default     = "false"
 }
 
 variable sg_ids {
