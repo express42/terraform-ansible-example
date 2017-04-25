@@ -10,6 +10,11 @@ variable private_key_path {
   description = "Path to the private key used to connect to instance"
 }
 
+variable azs {
+  description = "Run the EC2 Instances in these Availability Zones"
+  type = "list"
+}
+
 variable env {
   description = "Environment prefix"
 }

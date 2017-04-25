@@ -16,6 +16,12 @@ variable region {
   default     = "eu-central-1"
 }
 
+variable azs {
+  description = "Run the EC2 Instances in these Availability Zones"
+  type = "list"
+  default = ["eu-central-1a", "eu-central-1b"]
+}
+
 variable env {
   description = "Environment prefix"
   default = "dev"
