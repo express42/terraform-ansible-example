@@ -1,0 +1,30 @@
+{
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "eu-central-1",
+            "source_ami": "ami-060cde69",
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "ubuntu-16.04-amd64-python2-{{timestamp}}",
+            "ami_description": "Ubuntu Xenial 16.04 amd64 with python2",
+            "associate_public_ip_address": true,
+            "ami_block_device_mappings": [
+                {
+                    "device_name": "/dev/sdb",
+                    "delete_on_termination": "true",
+                    "volume_type": "gp2",
+                    "volume_size": "10",
+                    "encrypted": "false"
+                }
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "script": "install-python.sh",
+            "pause_before": "10s"
+        }
+    ]
+}
