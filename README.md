@@ -1,90 +1,66 @@
-# terraform-ansible-example
-Quick start on how to provision with ansible inside terraform
+# Overview
+Quick start on how to provision with ansible using terraform (remote) state file.
 
 ## Project structure
 * ansible - folder with ansible playbooks, inventories and configuration
 * terraform - folder with terraform infrastructure files
+* packer - folder with packer image definition
 
 ## Getting stated
-Prepend environment for using ansible dynamic inventory with Amazon ec2:
-```
-$ pip install boto
-$ chmod +x ansible/ec2.py
-```
-Of course, you'll need to have AWS credentials. By default you can find it in  ~/.aws/credentials
-```
+You'll need to have AWS credentials. By default you can find it in  ~/.aws/credentials:
+```sh
 $ cat ~/.aws/credentials
 [default]
 aws_access_key_id = <AWS_ACCESS_TOKEN>
 aws_secret_access_key = <AWS_SECRET_ACCESS_KEY>
 ...
 ```
-
-In file ansible/ec2.ini define your regions:
+Create the base AWS AMI using packer (if you don't have one in the storage):
+```sh
+$ cd packer
+$ packer validate ubuntu-16.04-amd64-example.json
+$ packer build ubuntu-16.04-amd64-example.json
 ```
-...
-regions = eu-central-1
-regions_exclude = us-gov-west-1, cn-north-1
-...
-```
-
 ## Usage
-if you want just up example infrastructure you need set your variables in .tfvars files
+If you want just to run example infrastructure, create terraform.tfvars file from template terraform.tfvars.example and set your variables:
+```sh
+$ cd ../terraform
+$ cp terraform.tfvars.example terraform.tfvars
 ```
-pub_key_path = "~/.ssh/express42.pub"
-private_key_path = "~/.ssh/express42"
-key_name = "astarostenko"
-env = "astarostenko"
+(Optional) Create backend.tf file from template and set your backend configs:
+```sh
+$ cp backend.tf.example backend.tf
+```
+Initialize terraform configuration:
+```sh
+$ terraform init
 ```
 
-Go to terraform folder and download all modules to .terraform folder (for local modules it just creates symlinks)
-```
-$ cd terraform
-$ terraform get
-```
-
-If your want to see plan of your own infrastructure
-
-```
+(Optional) Check the plan of your infrastructure:
+```sh
 $ terraform plan
-Refreshing Terraform state in-memory prior to plan...
-The refreshed state will be used to calculate this plan, but will not be
-persisted to local or remote state storage.
-
-data.aws_ami.image: Refreshing state...
-The Terraform execution plan has been generated and is shown below.
-Resources are shown in alphabetical order for quick scanning. Green resources
-will be created (or destroyed and then created if an existing resource
-exists), yellow resources are being changed in-place, and red resources
-will be destroyed. Cyan entries are data sources to be read.
-
-Note: You didn't specify an "-out" parameter to save this plan, so when
-"apply" is called, Terraform can't guarantee this is what will execute.
-
-+ null_resource.ansible_db
-
-+ null_resource.ansible_web
-
-+ module.db.aws_instance.db
-...
-...
-...
-Plan: 9 to add, 0 to change, 0 to destroy.
-
 ```
-To create all resources and provision all services
-```
+
+Create all resources:
+```sh
 $ terraform apply
 ```
-To delete all created resources
+
+Provision services:
+```sh
+$ cd ../ansible
+$ ansible-playbook -i dynamic_inventory.sh playbooks/db.yml -e env="your_env"
+$ ansible-playbook -i dynamic_inventory.sh playbooks/web.yml -e env="your_env"
 ```
+
+Delete all created resources:
+```sh
 $ terraform destroy
 ```
 # Terraform structure
 
 #### main.tf - contain general infrastructure description
-We describe used provider, can create resources, call some modules, and can also define provision  
-action
+We describe used provider, can create resources, call modules:
 ```
 provider "aws" {
   region = "${var.region}"
@@ -130,30 +106,28 @@ variable "list_var_name" {
 }
 ```
 
-Variables can be defined in
-* variables.tf or any other .tf file
+Variables can be defined in variables.tf or any other .tf file:
 ```
   variable env {
     description = "current environment (dev, prod, stage)"
     default = "dev"
   }
 ```
-You can just create it but not define in .tf file, but then you'll need to define it anywhere
+You can just create it but not define in .tf file, but then you'll need to define it anywhere:
   ```
     variable "name" {}
   ```
 
 * terraform.tfvars (default) or any other .tfvars file with flag -var-file
-```
+```sh
 $ terraform plan \
   -var-file="secret.tfvars" \
   -var-file="production.tfvars"
 ```
 * input argument to terraform with flag -var
-```
+```sh
 $ terraform plan -var 'access_key=foo'
 ```
-
 [More information about variables](https://www.terraform.io/docs/configuration/variables.html)
 
 #### outputs.tf - define all important output data like variables
@@ -183,3 +157,7 @@ We can use module just like:
   }
 ```
 [More information about modules](https://www.terraform.io/docs/modules/index.html)
+
+## Links:
+* [Terraform documentation](https://www.terraform.io/docs/ "Terraform documentation")
+* [Ansible documentation](https://docs.ansible.com/ansible/index.html "Ansible documentation")
