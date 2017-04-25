@@ -3,6 +3,7 @@ data "aws_ami" "image" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64*"]
+    values = ["ubuntu-16.04-amd64-python2*"]
   }
+  owners     = ["self"]
 }

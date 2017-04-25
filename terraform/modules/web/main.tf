@@ -1,8 +1,11 @@
 resource "aws_instance" "web" {
-  ami           = "${var.ami}"
-  count         = "${var.count}"
-  instance_type = "${var.instance_type}"
-  key_name      = "${var.key_name}"
+  ami               = "${var.ami}"
+  count             = "${var.count}"
+  instance_type     = "${var.instance_type}"
+  ebs_optimized     = "${var.ebs_optimized}"
+  monitoring        = "${var.monitoring}"
+  key_name          = "${var.key_name}"
+  availability_zone = "${element(var.azs, count.index)}"
 
   vpc_security_group_ids = [
     "${var.sg_ids}",

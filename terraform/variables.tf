@@ -16,6 +16,22 @@ variable region {
   default     = "eu-central-1"
 }
 
+variable ebs_optimized {
+  description = "Create EBS–Optimized Instances"
+  default     = "false"
+}
+
+variable monitoring {
+  description = "Enable detailed monitoring for EC2 instances"
+  default     = "false"
+}
+
+variable azs {
+  description = "Run the EC2 Instances in these Availability Zones"
+  type = "list"
+  default = ["eu-central-1a", "eu-central-1b"]
+}
+
 variable env {
   description = "Environment prefix"
   default = "dev"

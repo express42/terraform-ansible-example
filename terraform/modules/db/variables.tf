@@ -10,6 +10,11 @@ variable private_key_path {
   description = "Path to the private key used to connect to instance"
 }
 
+variable azs {
+  description = "Run the EC2 Instances in these Availability Zones"
+  type = "list"
+}
+
 variable env {
   description = "Environment prefix"
 }
@@ -21,6 +26,14 @@ variable ami {
 variable instance_type {
   description = "Instance type"
   default     = "t2.micro"
+}
+
+variable ebs_optimized {
+  description = "Create EBS–Optimized Instances"
+}
+
+variable monitoring {
+  description = "Enable detailed monitoring for EC2 instances"
 }
 
 variable sg_ids {
