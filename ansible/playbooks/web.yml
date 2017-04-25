@@ -1,6 +1,6 @@
 ---
 
-- hosts: aws_tag_Group=dev_web_cluster
+- hosts: aws_tag_Group={{ env }}_web_cluster
   gather_facts: false
   become: yes
 
