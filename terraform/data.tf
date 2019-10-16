@@ -5,4 +5,5 @@ data "aws_ami" "image" {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64*"]
   }
+  owners = ["099720109477"] 
 }

@@ -1,6 +1,6 @@
 resource "aws_instance" "web" {
   ami           = "${var.ami}"
-  count         = "${var.count}"
+  count         = 1
   instance_type = "${var.instance_type}"
   key_name      = "${var.key_name}"
 
@@ -9,15 +9,16 @@ resource "aws_instance" "web" {
     "${aws_security_group.web.id}",
   ]
 
-  tags {
+  tags = {
     Name  = "${var.env}_${format("${var.name}%02d", count.index+1)}"
     Group = "${var.env}_${var.name}_cluster"
   }
 
   provisioner "remote-exec" {
-    inline = "#Connected!"
+    inline = ["#Connected!"]
 
     connection {
+      host        = "${self.public_ip}"
       agent       = false
       type        = "ssh"
       user        = "${var.ssh_user}"

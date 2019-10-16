@@ -13,7 +13,7 @@ variable private_key_path {
 
 variable region {
   description = "Region"
-  default     = "eu-central-1"
+  default     = "ap-south-1"
 }
 
 variable env {
